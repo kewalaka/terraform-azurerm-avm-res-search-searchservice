@@ -22,6 +22,19 @@ variable "lock" {
   }
 }
 
+variable "managed_identities" {
+  type = object({
+    system_assigned = optional(bool, false)
+  })
+  default     = {}
+  description = <<DESCRIPTION
+  Configurations for managed identities in Azure. At the moment only system assigned identity is supported for this resource.
+
+  - `system_assigned` - (Optional) A boolean flag indicating whether to enable the system-assigned managed identity. Defaults to `false`.
+
+DESCRIPTION
+}
+
 variable "private_endpoints" {
   type = map(object({
     name = optional(string, null)
@@ -145,16 +158,6 @@ variable "hosting_mode" {
   type        = string
   default     = null
   description = "(Optional) Specifies the Hosting Mode, which allows for High Density partitions (that allow for up to 1000 indexes) should be supported. Possible values are `highDensity` or `default`. Defaults to `default`. Changing this forces a new Search Service to be created."
-}
-
-variable "identity" {
-  type = object({
-    type = string
-  })
-  default     = null
-  description = <<-EOT
- - `type` - (Required) Specifies the type of Managed Service Identity that should be configured on this Search Service. The only possible value is `SystemAssigned`.
-EOT
 }
 
 variable "local_authentication_enabled" {
