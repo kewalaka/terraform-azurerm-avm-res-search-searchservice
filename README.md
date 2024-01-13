@@ -1,22 +1,12 @@
 <!-- BEGIN_TF_DOCS -->
-# terraform-azurerm-avm-template
+# terraform-azurerm-avm-res-search-searchservice
 
-This is a template repo for Terraform Azure Verified Modules.
+This is a module for the Azure Cognitive Search Service, in the style of Azure Verified Modules (AVM).
 
-Things to do:
+For official AVM modules & further details about this specification, see <https://aka.me/AVM>
 
-1. Set up a GitHub repo environment called `test`.
-1. Configure environment protection rule to ensure that approval is required before deploying to this environment.
-1. Create a user-assigned managed identity in your test subscription.
-1. Create a role assignment for the managed identity on your test subscription, use the minimum required role.
-1. Configure federated identity credentials on the user assigned managed identity. Use the GitHub environment.
-1. Create the following environment secrets on the `test` environment:
-   1. AZURE\_CLIENT\_ID
-   1. AZURE\_TENANT\_ID
-   1. AZURE\_SUBSCRIPTION\_ID
-1. Search and update TODOs within the code and remove the TODO comments once complete.
-
-Major version Zero (0.y.z) is for initial development. Anything MAY change at any time. A module SHOULD NOT be considered stable till at least it is major version one (1.0.0) or greater. Changes will always be via new versions being published and no changes will be made to existing published versions. For more details please go to <https://semver.org/>
+> [!WARNING]
+> Major version Zero (0.y.z) is for initial development. Anything MAY change at any time. A module SHOULD NOT be considered stable till at least it is major version one (1.0.0) or greater. Changes will always be via new versions being published and no changes will be made to existing published versions. For more details please go to <https://semver.org/>
 
 <!-- markdownlint-disable MD033 -->
 ## Requirements
@@ -119,20 +109,6 @@ Type: `string`
 
 Default: `null`
 
-### <a name="input_identity"></a> [identity](#input\_identity)
-
-Description: - `type` - (Required) Specifies the type of Managed Service Identity that should be configured on this Search Service. The only possible value is `SystemAssigned`.
-
-Type:
-
-```hcl
-object({
-    type = string
-  })
-```
-
-Default: `null`
-
 ### <a name="input_local_authentication_enabled"></a> [local\_authentication\_enabled](#input\_local\_authentication\_enabled)
 
 Description: (Optional) Specifies whether the Search Service allows authenticating using API Keys? Defaults to `true`.
@@ -159,6 +135,22 @@ Type:
 object({
     name = optional(string, null)
     kind = optional(string, "None")
+  })
+```
+
+Default: `{}`
+
+### <a name="input_managed_identities"></a> [managed\_identities](#input\_managed\_identities)
+
+Description:   Configurations for managed identities in Azure. At the moment only system assigned identity is supported for this resource.
+
+  - `system_assigned` - (Optional) A boolean flag indicating whether to enable the system-assigned managed identity. Defaults to `false`.
+
+Type:
+
+```hcl
+object({
+    system_assigned = optional(bool, false)
   })
 ```
 

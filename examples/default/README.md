@@ -57,11 +57,15 @@ resource "azurerm_resource_group" "this" {
 # Do not specify location here due to the randomization above.
 # Leaving location as `null` will cause the module to use the resource group location
 # with a data source.
-module "search-service" {
+module "search_service" {
   source              = "../../"
   name                = module.naming.search_service.name_unique
   resource_group_name = azurerm_resource_group.this.name
   sku                 = "standard"
+  # A system assigned identity must be provided even though the AzureRM provider states it is optional.
+  managed_identities = {
+    system_assigned = true
+  }
 }
 ```
 
@@ -98,17 +102,7 @@ No required inputs.
 
 ## Optional Inputs
 
-The following input variables are optional (have default values):
-
-### <a name="input_enable_telemetry"></a> [enable\_telemetry](#input\_enable\_telemetry)
-
-Description: This variable controls whether or not telemetry is enabled for the module.  
-For more information see <https://aka.ms/avm/telemetryinfo>.  
-If it is set to false, then no telemetry will be collected.
-
-Type: `bool`
-
-Default: `true`
+No optional inputs.
 
 ## Outputs
 
@@ -130,7 +124,7 @@ Source: Azure/regions/azurerm
 
 Version: >= 0.3.0
 
-### <a name="module_search-service"></a> [search-service](#module\_search-service)
+### <a name="module_search_service"></a> [search\_service](#module\_search\_service)
 
 Source: ../../
 
